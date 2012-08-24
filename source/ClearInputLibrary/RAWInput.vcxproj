@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)\Include;$(USERPROFILE)\Documents\Visual Studio 2010\Projects\bloco\trunk\source\bloco;$(IncludePath)</IncludePath>
-    <OutDir>$(BLOCO_HOME)\trunk\bin\$(ProjectName)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -58,6 +58,14 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy $(OutDir) $(CIL_HOME)\bin\$(Configuration)\ "*.dll" /PURGE
+robocopy $(OutDir) $(CIL_HOME)\lib\$(Configuration)\ "*.lib"  /PURGE
+robocopy $(ProjectDir) $(CIL_HOME)\include "*.h"  /PURGE /XD "$(OutDir)"
+
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
