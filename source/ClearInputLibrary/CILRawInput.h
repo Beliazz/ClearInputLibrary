@@ -38,6 +38,15 @@ public:
 	char GetCharFromKey( CIL_KEY key );
 
 	inline LCID GetLocaleID() {return m_localeID;}
+
+	virtual void QTKeyUP(int key);
+	virtual void QTKeyDown(int key);
+
+	virtual void QtLButton(POINT cursor, bool down);
+	virtual void QtRButton(POINT cursor, bool down);
+	virtual void QtMiddleButton(POINT cursor, bool down);
+
+	virtual void QtMouseMove(POINT cursor, POINT delta);
 };
 
 }

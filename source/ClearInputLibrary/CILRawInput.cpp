@@ -217,9 +217,9 @@ void cil::CILRawInput::Update()
 				{
 					switch (m_mouse[i].key)
 					{
-					case VK_LBUTTON: it->second->OnLButtonDown(m_vRelPosition); break;
-					case VK_RBUTTON: it->second->OnRButtonDown(m_vRelPosition); break;
-					case VK_MBUTTON: it->second->OnMButtonDown(m_vRelPosition); break;
+					case VK_LBUTTON: it->second->OnLButtonUp(m_vRelPosition); break;
+					case VK_RBUTTON: it->second->OnRButtonUp(m_vRelPosition); break;
+					case VK_MBUTTON: it->second->OnMButtonUp(m_vRelPosition); break;
 					}
 				}
 			}
@@ -318,6 +318,48 @@ void cil::CILRawInput::Split( std::vector<cil::Key>& keys, std::vector<cil::Key>
 		pKeys->push_back(keys[i]);
 	}
 }
+
+
+
+void cil::CILRawInput::QTKeyUP( int key )
+{
+	m_unprocessed.push_back(Key(key, false));
+	m_bNewInput = true;
+}
+void cil::CILRawInput::QTKeyDown( int key )
+{
+	m_unprocessed.push_back(Key(key, true));
+	m_bNewInput = true;
+}
+void cil::CILRawInput::QtLButton( POINT cursor, bool down )
+{
+	m_unprocessed.push_back(Key(VK_LBUTTON, down));
+	m_bNewInput = true;
+}
+void cil::CILRawInput::QtRButton( POINT cursor, bool down )
+{
+	m_unprocessed.push_back(Key(VK_RBUTTON, down));
+	m_bNewInput = true;
+}
+void cil::CILRawInput::QtMiddleButton( POINT cursor, bool down )
+{
+	m_unprocessed.push_back(Key(VK_MBUTTON, down));
+	m_bNewInput = true;
+}
+void cil::CILRawInput::QtMouseMove( POINT cursor, POINT delta )
+{
+	m_vRelPosition.x = cursor.x;
+	m_vRelPosition.y = cursor.y;
+	m_vDelta.x += delta.x;
+	m_vDelta.y += delta.y;
+	m_bNewInput = true;
+}
+
+
+
+
+
+
 
 // unsigned char cil::CILRawInput::TransformToCharGerman( cil::CIL_KEY key )
 // {
